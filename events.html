@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventos - Eventos Guatemala</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="events-page">
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h1>Eventos Guatemala</h1>
+      </div>
+      <div class="header-actions">
+        <div class="user-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span id="userName"></span>
+          <span id="userBadge"></span>
+        </div>
+        <button id="adminBtn" class="btn btn-secondary hidden" onclick="window.location.href='admin.html'">
+          Panel Admin
+        </button>
+        <button class="btn btn-secondary" onclick="window.location.href='cart.html'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/>
+            <circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          Carrito (<span id="cartCount">0</span>)
+        </button>
+        <button class="btn btn-secondary" onclick="handleLogout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          Salir
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filters -->
+  <div class="filters">
+    <div class="container">
+      <div class="filters-grid">
+        <div class="search-input">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" id="searchInput" class="input" placeholder="Buscar eventos..." oninput="filterEvents()">
+        </div>
+        <select id="cityFilter" class="select" onchange="filterEvents()">
+          <option value="Todas">Todas las ciudades</option>
+        </select>
+        <select id="categoryFilter" class="select" onchange="filterEvents()">
+          <option value="Todas">Todas las categorías</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Events Grid -->
+  <div class="container">
+    <p id="eventCount" style="margin: 1rem 0; color: #6b7280; font-size: 0.875rem;"></p>
+    <div id="eventsGrid" class="events-grid"></div>
+    <div id="noEvents" class="empty-state hidden">
+      <p style="color: #6b7280;">No se encontraron eventos con los filtros seleccionados</p>
+    </div>
+  </div>
+
+  <script src="events.js"></script>
+</body>
+</html>

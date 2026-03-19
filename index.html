@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Eventos Guatemala</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: white;">
+            <path d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"/>
+          </svg>
+        </div>
+        <h1>Eventos Guatemala</h1>
+        <p style="color: #6b7280; font-size: 0.875rem;">Descubre los mejores conciertos y eventos de Guatemala</p>
+      </div>
+
+      <div class="login-tabs">
+        <button class="tab active" onclick="switchTab('login')">Iniciar Sesión</button>
+        <button class="tab" onclick="switchTab('register')">Crear Cuenta</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Correo Electrónico</label>
+          <input type="email" id="loginEmail" class="input" placeholder="correo@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" class="input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+        
+        <div class="info-box">
+          <p style="font-weight: 600; margin-bottom: 0.5rem;">Cuentas de prueba:</p>
+          <p><strong>Admin:</strong> admin@eventos.gt / admin123</p>
+          <p><strong>Usuario:</strong> usuario@eventos.gt / user123</p>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="registerName">Nombre Completo</label>
+          <input type="text" id="registerName" class="input" placeholder="Juan Pérez" required>
+        </div>
+        <div class="form-group">
+          <label for="registerEmail">Correo Electrónico</label>
+          <input type="email" id="registerEmail" class="input" placeholder="correo@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="registerPassword">Contraseña</label>
+          <input type="password" id="registerPassword" class="input" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Crear Cuenta</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>

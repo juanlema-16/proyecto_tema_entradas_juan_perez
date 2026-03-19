@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito - Eventos Guatemala</title>
+  <link rel="stylesheet" href="styles.css">
+  
+</head>
+<body class="cart-page">
+  <div class="container">
+    <button class="btn btn-secondary" onclick="window.location.href='events.html'" style="margin-bottom: 1.5rem;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Volver a eventos
+    </button>
+
+    <div class="card">
+      <div style="padding: 1.5rem; border-bottom: 1px solid #e5e7eb;">
+        <h2 style="font-size: 1.5rem; font-weight: 700;">🛒 Tu Carrito</h2>
+        <p id="itemCount" style="color: #6b7280; font-size: 0.875rem;"></p>
+      </div>
+      
+      <div id="cartItems" style="padding: 1.5rem;"></div>
+
+      <div id="emptyCart" class="hidden" style="padding: 4rem 2rem; text-align: center;">
+        <p style="color: #6b7280; margin-bottom: 1.5rem;">Tu carrito está vacío</p>
+        <button class="btn btn-primary" onclick="window.location.href='events.html'">Explorar Eventos</button>
+      </div>
+
+      <div id="cartSummary" class="cart-summary hidden">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+          <span style="color: #6b7280;">Subtotal</span>
+          <span id="subtotal" style="font-weight: 600;">Q0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 700;">
+          <span>Total</span>
+          <span id="total" style="color: #7c3aed;">Q0.00</span>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="openPaymentModal()">Finalizar Compra</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="paymentModal" class="payment-modal">
+    <div class="payment-card">
+      <div id="paymentLoading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; font-weight: 600; color: #4b5563;">Procesando pago...</p>
+      </div>
+
+      <h2 style="margin-bottom: 1.5rem; text-align: center;">Información de Pago</h2>
+      
+      <div class="credit-card-visual">
+        <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 0.5rem;">Número de Tarjeta</div>
+        <div id="cardNumDisplay" style="font-size: 1.25rem; letter-spacing: 2px; margin-bottom: 1rem;">**** **** **** ****</div>
+        <div style="display: flex; justify-content: space-between;">
+          <div>
+            <div style="font-size: 0.6rem; opacity: 0.8;">Titular</div>
+            <div id="cardNameDisplay" style="font-size: 0.9rem; text-transform: uppercase;">NOMBRE COMPLETO</div>
+          </div>
+          <div>
+            <div style="font-size: 0.6rem; opacity: 0.8;">Expira</div>
+            <div id="cardExpDisplay" style="font-size: 0.9rem;">MM/AA</div>
+          </div>
+        </div>
+      </div>
+
+      <form id="paymentForm" onsubmit="processPayment(event)">
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label>Nombre en la Tarjeta</label>
+          <input type="text" id="cardName" class="input" placeholder="Juan Perez" required oninput="updateCardVisual()">
+        </div>
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label>Número de Tarjeta</label>
+          <input type="text" id="cardNum" class="input" maxlength="16" placeholder="1234 5678 1234 5678" required oninput="updateCardVisual()">
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Expiración</label><input type="text" id="cardExp" class="input" placeholder="MM/AA" maxlength="5" required oninput="updateCardVisual()"></div>
+          <div class="form-group"><label>CVV</label><input type="password" id="cardCvv" class="input" maxlength="3" placeholder="123" required></div>
+        </div>
+
+        <hr style="margin: 1.5rem 0; border: 0; border-top: 1px solid #e5e7eb;">
+        <h3 style="font-size: 1rem; margin-bottom: 1rem;">Dirección de Facturación</h3>
+        
+        <div class="form-group" style="margin-bottom: 1rem;"><label>Dirección</label><input type="text" id="address" class="input" required></div>
+        <div class="form-row">
+          <div class="form-group"><label>Ciudad</label><input type="text" id="payCity" class="input" required></div>
+          <div class="form-group"><label>Departamento</label><input type="text" id="payDept" class="input" required></div>
+        </div>
+        <div class="form-group" style="margin-bottom: 1.5rem;"><label>Código Postal</label><input type="text" id="zip" class="input" required></div>
+
+        <div style="display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 2;">Pagar Ahora</button>
+          <button type="button" class="btn btn-secondary" onclick="closePaymentModal()" style="flex: 1;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="cart.js"></script>
+</body>
+</html>

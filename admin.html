@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - Eventos Guatemala</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-page">
+  <div class="container">
+    <div class="admin-header">
+      <div>
+        <button class="btn btn-secondary" onclick="window.location.href='events.html'" style="margin-bottom: 1rem;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Volver a eventos
+        </button>
+        <h1>Panel de Administración</h1>
+      </div>
+      <button class="btn btn-primary" onclick="openAddModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        Nuevo Evento
+      </button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('events')">Eventos</button>
+      <button class="tab" onclick="switchTab('sales')">Ventas</button>
+      <button class="tab" onclick="switchTab('categories')">Categorías</button>
+      <button class="tab" onclick="switchTab('cities')">Ciudades</button>
+    </div>
+
+    <div id="eventsTab" class="tab-content active">
+      <div class="card">
+        <div style="overflow-x: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Evento</th>
+                <th>Fecha/Hora</th>
+                <th>Ubicación</th>
+                <th>Precio</th>
+                <th>Tickets</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="eventsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="salesTab" class="tab-content">
+      <div class="card">
+        <div style="padding: 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+          <h3 style="font-size: 1.25rem; font-weight: 600;">Reporte de Ventas</h3>
+          <div id="totalSales" style="font-weight: 700; color: #7c3aed; font-size: 1.25rem;"></div>
+        </div>
+        <div style="overflow-x: auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID Venta</th>
+                <th>Evento</th>
+                <th>Cliente</th>
+                <th>Cant.</th>
+                <th>Total</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="salesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="categoriesTab" class="tab-content">
+      <div class="card">
+        <div style="padding: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600;">Gestión de Categorías</h3>
+            <button class="btn btn-primary" onclick="addCategoryPrompt()">+ Nueva Categoría</button>
+          </div>
+          <table class="table">
+            <thead><tr><th>Nombre</th><th>Acciones</th></tr></thead>
+            <tbody id="categoriesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="citiesTab" class="tab-content">
+      <div class="card">
+        <div style="padding: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="font-size: 1.25rem; font-weight: 600;">Gestión de Ciudades</h3>
+            <button class="btn btn-primary" onclick="addCityPrompt()">+ Nueva Ciudad</button>
+          </div>
+          <table class="table">
+            <thead><tr><th>Nombre de Ciudad</th><th>Acciones</th></tr></thead>
+            <tbody id="citiesTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="addModal" class="modal">
+    <div class="modal-content">
+      <h2>Nuevo Evento</h2>
+      <form id="addEventForm" onsubmit="handleAddEvent(event)">
+        <div class="form-group"><label>Nombre</label><input type="text" id="addName" class="input" required></div>
+        <div class="form-group"><label>Descripción</label><textarea id="addDescription" class="input" rows="2" required></textarea></div>
+        <div class="form-grid">
+          <div class="form-group"><label>Fecha</label><input type="date" id="addDate" class="input" required></div>
+          <div class="form-group"><label>Hora</label><input type="time" id="addTime" class="input" required></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>Ciudad</label><select id="addCity" class="select" required></select></div>
+          <div class="form-group"><label>Categoría</label><select id="addCategory" class="select" required></select></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>Precio (Q)</label><input type="number" id="addPrice" class="input" step="0.01" required></div>
+          <div class="form-group"><label>Tickets</label><input type="number" id="addTickets" class="input" required></div>
+        </div>
+        <div class="form-group"><label>URL Imagen</label><input type="url" id="addImageUrl" class="input" required></div>
+        <div style="display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Crear</button>
+          <button type="button" class="btn btn-secondary" onclick="closeAddModal()" style="flex: 1;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h2>Editar Evento</h2>
+      <form id="editEventForm" onsubmit="handleUpdateEvent(event)">
+        <div class="form-group"><label>Nombre</label><input type="text" id="editName" class="input" required></div>
+        <div class="form-group"><label>Descripción</label><textarea id="editDescription" class="input" rows="2" required></textarea></div>
+        <div class="form-grid">
+          <div class="form-group"><label>Fecha</label><input type="date" id="editDate" class="input" required></div>
+          <div class="form-group"><label>Hora</label><input type="time" id="editTime" class="input" required></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>Ciudad</label><select id="editCity" class="select" required></select></div>
+          <div class="form-group"><label>Categoría</label><select id="editCategory" class="select" required></select></div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group"><label>Precio (Q)</label><input type="number" id="editPrice" class="input" step="0.01" required></div>
+          <div class="form-group"><label>Tickets</label><input type="number" id="editTickets" class="input" required></div>
+        </div>
+        <div class="form-group"><label>URL Imagen</label><input type="url" id="editImageUrl" class="input" required></div>
+        <div style="display: flex; gap: 1rem;">
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar</button>
+          <button type="button" class="btn btn-secondary" onclick="closeEditModal()" style="flex: 1;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{
+  "defaultUsers": [
+    {
+      "id": "1",
+      "email": "admin@eventos.gt",
+      "password": "admin123",
+      "name": "Administrador",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "email": "usuario@eventos.gt",
+      "password": "user123",
+      "name": "Usuario de Prueba",
+      "role": "user"
+    }
+  ],
+  "defaultEvents": [
+    {
+      "id": "1",
+      "name": "Festival de Rock Chapín",
+      "description": "El mejor festival de rock nacional e internacional en Guatemala. Disfruta de bandas locales y artistas invitados.",
+      "date": "2026-04-15",
+      "time": "19:00",
+      "city": "Ciudad de Guatemala",
+      "category": "Rock",
+      "price": 250,
+      "imageUrl": "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800",
+      "availableTickets": 500,
+      "suspended": false
+    },
+    {
+      "id": "2",
+      "name": "Concierto de Marimba Tradicional",
+      "description": "Una noche mágica con la marimba guatemalteca. Celebremos nuestra cultura y tradiciones.",
+      "date": "2026-05-20",
+      "time": "18:00",
+      "city": "Antigua Guatemala",
+      "category": "Tradicional",
+      "price": 150,
+      "imageUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?w=800",
+      "availableTickets": 300,
+      "suspended": false
+    },
+    {
+      "id": "3",
+      "name": "Festival Electrónico Lake Atitlán",
+      "description": "Música electrónica en el lago más hermoso del mundo. DJs internacionales y vistas espectaculares.",
+      "date": "2026-06-10",
+      "time": "20:00",
+      "city": "Panajachel",
+      "category": "Electrónica",
+      "price": 350,
+      "imageUrl": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800",
+      "availableTickets": 800,
+      "suspended": false
+    },
+    {
+      "id": "4",
+      "name": "Jazz en Xela",
+      "description": "Festival de Jazz en las alturas de Quetzaltenango. Artistas nacionales e internacionales.",
+      "date": "2026-07-05",
+      "time": "19:30",
+      "city": "Quetzaltenango",
+      "category": "Jazz",
+      "price": 200,
+      "imageUrl": "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=800",
+      "availableTickets": 250,
+      "suspended": false
+    },
+    {
+      "id": "5",
+      "name": "Concierto Pop Latino",
+      "description": "Los mejores éxitos del pop latino. Una noche llena de energía y baile.",
+      "date": "2026-08-12",
+      "time": "20:00",
+      "city": "Ciudad de Guatemala",
+      "category": "Pop",
+      "price": 300,
+      "imageUrl": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800",
+      "availableTickets": 1000,
+      "suspended": false
+    },
+    {
+      "id": "6",
+      "name": "Festival de Reggae en la Costa",
+      "description": "Vibra positiva en la costa del Pacífico. Reggae, sol y playa.",
+      "date": "2026-09-18",
+      "time": "17:00",
+      "city": "Puerto San José",
+      "category": "Reggae",
+      "price": 180,
+      "imageUrl": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
+      "availableTickets": 600,
+      "suspended": false
+    }
+  ],
+  "cities": [
+    "Todas",
+    "Ciudad de Guatemala",
+    "Antigua Guatemala",
+    "Quetzaltenango",
+    "Panajachel",
+    "Puerto San José",
+    "Cobán",
+    "Escuintla"
+  ],
+  "categories": [
+    "Todas",
+    "Rock",
+    "Pop",
+    "Jazz",
+    "Electrónica",
+    "Reggae",
+    "Tradicional",
+    "Salsa",
+    "Hip Hop"
+  ]
+}
