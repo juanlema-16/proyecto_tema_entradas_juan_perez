@@ -780,3 +780,113 @@ body {
     flex-direction: column;
   }
 }
+
+
+
+/* --- DISEÑO DE PAGO PROFESIONAL --- */
+
+.payment-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.8); /* Azul muy oscuro traslúcido */
+    backdrop-filter: blur(8px); /* Efecto de desenfoque al fondo */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.payment-card {
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    position: relative;
+    border: 1px solid #f1f5f9;
+}
+
+/* Tarjeta Visual Estilo "Glassmorphism" */
+.credit-card-visual {
+    background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    position: relative;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3);
+}
+
+.credit-card-visual::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px; /* Simula el chip de la tarjeta */
+}
+
+/* Inputs más modernos */
+.input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background: #f8fafc;
+}
+
+.input:focus {
+    border-color: #3b82f6;
+    background: white;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Botones con carácter */
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 12px;
+}

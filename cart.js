@@ -70,82 +70,114 @@ function removeFromCart(eventId) {
   loadCart();
 }
 
-// --- LÓGICA DE PAGO ---
+// --- LÓGICA DE PAGO MEJORADA ---
+
 function openPaymentModal() {
-  document.getElementById('paymentModal').classList.add('active');
-  // Bloquea el scroll de la página de atrás
+  // Asegúrate de que en tu CSS .payment-modal.active tenga display: flex o visibility: visible
+  const modal = document.getElementById('paymentModal');
+  modal.classList.add('active');
+  modal.style.display = 'flex'; // Forzamos el display si el CSS no lo hace
   document.body.style.overflow = 'hidden'; 
 }
 
 function closePaymentModal() {
-  document.getElementById('paymentModal').classList.remove('active');
-  // Devuelve el scroll a la página
+  const modal = document.getElementById('paymentModal');
+  modal.classList.remove('active');
+  modal.style.display = 'none';
   document.body.style.overflow = 'auto'; 
 }
-function updateCardVisual() {
-  const name = document.getElementById('cardName').value;
-  const num = document.getElementById('cardNum').value;
-  const exp = document.getElementById('cardExp').value;
 
-  document.getElementById('cardNameDisplay').textContent = name || "NOMBRE COMPLETO";
-  document.getElementById('cardNumDisplay').textContent = num ? num.replace(/(.{4})/g, '$1 ') : "**** **** **** ****";
-  document.getElementById('cardExpDisplay').textContent = exp || "MM/AA";
+function updateCardVisual() {
+  const nameInput = document.getElementById('cardName');
+  const numInput = document.getElementById('cardNum');
+  const expInput = document.getElementById('cardExp');
+
+  // 1. Limpiar y formatear Número de Tarjeta (solo números, max 16)
+  let numValue = numInput.value.replace(/\D/g, ''); // Elimina lo que no sea número
+  if (numValue.length > 16) numValue = numValue.slice(0, 16);
+  numInput.value = numValue.replace(/(\d{4})(?=\d)/g, '$1 '); // Agrega espacios visuales al input
+
+  // 2. Formatear Expiración (MM/AA)
+  let expValue = expInput.value.replace(/\D/g, '');
+  if (expValue.length > 4) expValue = expValue.slice(0, 4);
+  if (expValue.length >= 3) {
+    expInput.value = expValue.slice(0, 2) + '/' + expValue.slice(2);
+  } else {
+    expInput.value = expValue;
+  }
+
+  // 3. Actualizar el dibujo de la tarjeta
+  document.getElementById('cardNameDisplay').textContent = nameInput.value.toUpperCase() || "NOMBRE COMPLETO";
+  
+  // El número en la tarjeta se ve con asteriscos si está vacío
+  const rawNum = numInput.value;
+  document.getElementById('cardNumDisplay').textContent = rawNum || "**** **** **** ****";
+  
+  document.getElementById('cardExpDisplay').textContent = expInput.value || "MM/AA";
 }
 
 function processPayment(event) {
   event.preventDefault();
   
-  // Mostrar animación de carga
+  // Validaciones básicas antes de procesar
+  const cardNum = document.getElementById('cardNum').value.replace(/\s/g, '');
+  if (cardNum.length < 10) {
+    alert("Por favor, ingresa un número de tarjeta válido de 10 dígitos.");
+    return;
+  }
+
   const loader = document.getElementById('paymentLoading');
   loader.style.display = 'flex';
 
-  // Simular procesamiento del banco (2 segundos)
   setTimeout(() => {
     const sales = JSON.parse(localStorage.getItem('sales') || '[]');
     const currentEvents = JSON.parse(localStorage.getItem('events') || '[]');
 
+    // Usamos una variable para controlar si todo salió bien
+    let success = true;
+
     cart.forEach(item => {
       const eventIdx = currentEvents.findIndex(e => e.id === item.eventId);
       if (eventIdx !== -1) {
-        // Registrar venta
-        sales.push({
-          id: `V-${Date.now()}`,
-          eventId: item.eventId,
-          userId: currentUser.id,
-          userName: currentUser.name,
-          userEmail: currentUser.email,
-          quantity: item.quantity,
-          total: currentEvents[eventIdx].price * item.quantity,
-          date: new Date().toISOString()
-        });
-        // Restar stock
-        currentEvents[eventIdx].availableTickets -= item.quantity;
+        if (currentEvents[eventIdx].availableTickets >= item.quantity) {
+          sales.push({
+            id: `V-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+            eventId: item.eventId,
+            userId: currentUser.id,
+            userName: currentUser.name,
+            quantity: item.quantity,
+            total: currentEvents[eventIdx].price * item.quantity,
+            date: new Date().toISOString()
+          });
+          currentEvents[eventIdx].availableTickets -= item.quantity;
+        } else {
+          success = false;
+          alert(`Lo sentimos, ya no hay boletos suficientes para: ${currentEvents[eventIdx].name}`);
+        }
       }
     });
 
-    localStorage.setItem('sales', JSON.stringify(sales));
-    localStorage.setItem('events', JSON.stringify(currentEvents));
-    localStorage.setItem(`cart_${currentUser.id}`, JSON.stringify([]));
+    if (success) {
+      localStorage.setItem('sales', JSON.stringify(sales));
+      localStorage.setItem('events', JSON.stringify(currentEvents));
+      localStorage.setItem(`cart_${currentUser.id}`, JSON.stringify([]));
 
-    loader.innerHTML = `
-      <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-      <p style="margin-top: 1rem; color: #10b981; font-weight: 700;">¡Pago Exitoso!</p>
-    `;
+      loader.innerHTML = `
+        <div style="text-align: center;">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <p style="margin-top: 1rem; color: #10b981; font-weight: 700;">¡Pago Exitoso!</p>
+        </div>
+      `;
 
-    setTimeout(() => {
-      window.location.href = 'events.html';
-    }, 1500);
+      setTimeout(() => {
+        window.location.href = 'events.html';
+      }, 2000);
+    } else {
+      loader.style.display = 'none'; // Si falló por stock, ocultamos el cargando
+    }
   }, 2000);
-}
-
-function showToast(message, type = 'success') {
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.textContent = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
 }
 
 checkAuth();
