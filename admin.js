@@ -230,5 +230,98 @@ function showToast(msg) {
   document.body.appendChild(t); setTimeout(() => t.remove(), 2000);
 }
 
+// --- LÓGICA DEL MÓDULO DE CIUDADES ---
+
+function displayCities() {
+  const tbody = document.getElementById('cityTableBody');
+  const cities = JSON.parse(localStorage.getItem('cities') || '[]');
+  
+  tbody.innerHTML = cities.map(city => `
+      <tr>
+          <td><strong>${city.code}</strong></td>
+          <td>${city.name}</td>
+          <td>
+              <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-secondary" onclick="editCity('${city.id}')">Editar</button>
+                  <button class="btn btn-danger" onclick="deleteCity('${city.id}')">Eliminar</button>
+              </div>
+          </td>
+      </tr>
+  `).join('');
+  
+  // Sincronizar los selects de los formularios de EVENTOS
+  populateCitySelects(cities);
+}
+
+function handleCitySubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('editingCityId').value;
+  const code = document.getElementById('cityCode').value;
+  const name = document.getElementById('cityName').value;
+  
+  let cities = JSON.parse(localStorage.getItem('cities') || '[]');
+  
+  if (id) {
+      // Editar
+      const index = cities.findIndex(c => c.id === id);
+      cities[index] = { ...cities[index], code, name };
+      showToast('Ciudad actualizada');
+  } else {
+      // Crear
+      cities.push({ id: Date.now().toString(), code, name });
+      showToast('Ciudad agregada exitosamente');
+  }
+  
+  localStorage.setItem('cities', JSON.stringify(cities));
+  closeCityModal();
+  displayCities();
+}
+
+function editCity(id) {
+  const cities = JSON.parse(localStorage.getItem('cities') || '[]');
+  const city = cities.find(c => c.id === id);
+  if (!city) return;
+  
+  document.getElementById('editingCityId').value = city.id;
+  document.getElementById('cityCode').value = city.code;
+  document.getElementById('cityName').value = city.name;
+  document.getElementById('cityModalTitle').innerText = 'Editar Ciudad';
+  document.getElementById('cityModal').classList.add('active');
+}
+
+function deleteCity(id) {
+  if (confirm('¿Estás seguro de eliminar esta ciudad? Los eventos asociados podrían verse afectados.')) {
+      let cities = JSON.parse(localStorage.getItem('cities') || '[]');
+      cities = cities.filter(c => c.id !== id);
+      localStorage.setItem('cities', JSON.stringify(cities));
+      displayCities();
+  }
+}
+
+// Vincula las ciudades con el módulo de eventos
+function populateCitySelects(cities) {
+  const selects = [document.getElementById('addCity'), document.getElementById('editCity')];
+  const options = cities.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+  
+  selects.forEach(s => {
+      if (s) s.innerHTML = options;
+  });
+}
+
+// Helpers para el Modal
+function openCityModal() {
+  document.getElementById('cityForm').reset();
+  document.getElementById('editingCityId').value = '';
+  document.getElementById('cityModalTitle').innerText = 'Agregar Ciudad';
+  document.getElementById('cityModal').classList.add('active');
+}
+
+function closeCityModal() {
+  document.getElementById('cityModal').classList.remove('active');
+}
+
+// INICIALIZACIÓN: Llama a displayCities() dentro de tu función loadData() o al final del script
+displayCities();
+
 checkAuth();
 loadData();

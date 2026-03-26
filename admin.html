@@ -166,5 +166,45 @@
   </div>
 
   <script src="admin.js"></script>
+
+  <section class="card" style="margin-top: 2rem; padding: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2>📍 Gestión de Ciudades</h2>
+        <button class="btn btn-primary" onclick="openCityModal()">+ Agregar Ciudad</button>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre de la Ciudad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="cityTableBody">
+            </tbody>
+    </table>
+</section>
+
+<div id="cityModal" class="modal">
+    <div class="modal-content">
+        <h3 id="cityModalTitle">Agregar Ciudad</h3>
+        <form id="cityForm" onsubmit="handleCitySubmit(event)">
+            <input type="hidden" id="editingCityId">
+            <div class="form-group">
+                <label>Código (ej: GUA-01)</label>
+                <input type="text" id="cityCode" class="input" required>
+            </div>
+            <div class="form-group">
+                <label>Nombre de la Ciudad</label>
+                <input type="text" id="cityName" class="input" required>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Guardar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeCityModal()" style="flex: 1;">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
